@@ -1,0 +1,123 @@
+---
+title: "Projekt semestralny grupowy"
+author: 'Grupa A: Kowarik Aleksandra, Księżak Anita, Mruk Karolina, Sobór Sandra, Stobiecka Izabela, Szymańska Joanna'
+date: "31 maja 2019"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r pakiety, include = FALSE}
+library(dplyr)
+library(RColorBrewer)
+library(forecast)
+library(tseries)
+library(DescTools)
+
+sciezka_pliku <- paste0("dane/train.csv")
+```
+
+## Wczytywanie danych
+
+```{r}
+dane <-read.csv(sciezka_pliku)
+sklep <- dane$store
+produkt <- dane$item
+sprzedaz <- dane$sales
+
+ktoryProdukt <- factor(produkt, levels = c("1":"50"))
+ktorySklep <- factor(sklep, levels = c("1":"10"))
+
+head(dane)
+```
+
+## Analiza wariancji - Czy istnieje sklep którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
+
+```{r}
+boxplot(sprzedaz~ktorySklep, xlab = "Numer sklepu", ylab = "Sprzedaż produktów")
+points(1:10, by(sprzedaz, ktorySklep, mean), pch = 15)
+by(sprzedaz, sklep, mean)
+
+```
+
+Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej // Zbyt duży rozmiar danych
+
+# ```{r}
+# shapiro.test(sprzedaz[ktorySklep == "1"])
+# shapiro.test(sprzedaz[ktorySklep == "2"])
+# shapiro.test(sprzedaz[ktorySklep == "3"])
+# shapiro.test(sprzedaz[ktorySklep == "4"])
+# shapiro.test(sprzedaz[ktorySklep == "5"])
+# shapiro.test(sprzedaz[ktorySklep == "6"])
+# shapiro.test(sprzedaz[ktorySklep == "7"])
+# shapiro.test(sprzedaz[ktorySklep == "8"])
+# shapiro.test(sprzedaz[ktorySklep == "9"])
+# shapiro.test(sprzedaz[ktorySklep == "10"])
+# ```
+
+```{r}
+par(mfrow = c(2, 5), pty = "m")
+qqnorm(sprzedaz[ktorySklep == "1"]); qqline(sprzedaz[ktorySklep == "1"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "2"]); qqline(sprzedaz[ktorySklep == "2"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "3"]); qqline(sprzedaz[ktorySklep == "3"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "4"]); qqline(sprzedaz[ktorySklep == "4"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "5"]); qqline(sprzedaz[ktorySklep == "5"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "6"]); qqline(sprzedaz[ktorySklep == "6"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "7"]); qqline(sprzedaz[ktorySklep == "7"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "8"]); qqline(sprzedaz[ktorySklep == "8"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "9"]); qqline(sprzedaz[ktorySklep == "9"] ,col = "red")
+qqnorm(sprzedaz[ktorySklep == "10"]); qqline(sprzedaz[ktorySklep == "10"] ,col = "red")
+mfrow= c(1,1)
+```
+
+```{r}
+anova(lm(sprzedaz~ktorySklep))
+TukeyHSD(aov(sprzedaz~ktorySklep), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz~ktorySklep), conf.level = 0.95))
+```
+
+
+Średnia sprzedaż produtków jest podobna dla następujących par sklepów: 9-4, 6-5.
+
+
+## Analiza wariancji - Czy istnieje produkt którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
+
+### Produkt 1
+
+```{r}
+sprzedaz_p1 <- sprzedaz[ktoryProdukt == "1"]
+sklep_p1 <- sklep[ktoryProdukt == "1"]
+ktorySklep_p1 <- factor(sklep_p1, levels = c("1":"10"))
+
+boxplot(sprzedaz_p1~ktorySklep_p1, xlab = "Numer sklepu", ylab = "Sprzedaż produktu pierwszego")
+points(1:10, by(sprzedaz_p1, ktorySklep_p1, mean), pch = 15)
+by(sprzedaz_p1, sklep_p1, mean)
+
+```
+
+Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
+
+```{r}
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "1"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "2"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "3"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "4"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "5"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "6"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "7"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "8"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "9"])
+shapiro.test(sprzedaz_p1[ktorySklep_p1 == "10"])
+```
+
+W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
+
+```{r}
+anova(lm(sprzedaz_p1~ktorySklep_p1))
+TukeyHSD(aov(sprzedaz_p1~ktorySklep_p1), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p1~ktorySklep_p1), conf.level = 0.95))
+```
+
+Średnia sprzedaż produtku 1 jest podobna dla następujących par sklepów: 10-3, 9-4, 6-5.
