@@ -43,7 +43,7 @@ by(sprzedaz, sklep, mean)
 
 ```
 
-Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej // Zbyt duży rozmiar danych
+Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
 
  <!-- ```{r} -->
  <!-- shapiro.test(sprzedaz[ktorySklep == "1"]) -->
@@ -56,6 +56,7 @@ Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej // Zbyt 
  <!-- shapiro.test(sprzedaz[ktorySklep == "8"]) -->
  <!-- shapiro.test(sprzedaz[ktorySklep == "9"]) -->
  <!-- shapiro.test(sprzedaz[ktorySklep == "10"]) -->
+ <!-- Zbyt duży rozmiar danych -->
  <!-- ``` -->
 
 ```{r}
@@ -80,7 +81,7 @@ plot(TukeyHSD(aov(sprzedaz~ktorySklep), conf.level = 0.95))
 ```
 
 
-Średnia sprzedaż produtków jest podobna dla następujących par sklepów: 9-4, 6-5.
+**Średnia sprzedaż produktów jest podobna dla następujących par sklepów: _9-4, 6-5_ **
 
 
 ## Analiza wariancji - Czy istnieje produkt którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
@@ -122,4 +123,1163 @@ TukeyHSD(aov(sprzedaz_p1~ktorySklep_p1), conf.level = 0.95)
 plot(TukeyHSD(aov(sprzedaz_p1~ktorySklep_p1), conf.level = 0.95))
 ```
 
-Średnia sprzedaż produtku 1 jest podobna dla następujących par sklepów: 10-3, 9-4, 6-5.
+**Średnia sprzedaż produktu 1 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 2
+
+```{r}
+sprzedaz_p2 <- sprzedaz[ktoryProdukt == "2"]
+sklep_p2 <- sklep[ktoryProdukt == "2"]
+ktorySklep_p2 <- factor(sklep_p2, levels = c("1":"10"))
+
+boxplot(sprzedaz_p2~ktorySklep_p2, xlab = "Numer sklepu", ylab = "Sprzedaż produktu drugiego",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p2, ktorySklep_p2, mean), pch = 15)
+by(sprzedaz_p2, sklep_p2, mean)
+
+```
+
+Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
+
+```{r}
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "1"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "2"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "3"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "4"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "5"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "6"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "7"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "8"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "9"])
+shapiro.test(sprzedaz_p2[ktorySklep_p2 == "10"])
+```
+
+W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
+
+```{r}
+anova(lm(sprzedaz_p2~ktorySklep_p2))
+TukeyHSD(aov(sprzedaz_p2~ktorySklep_p2), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p2~ktorySklep_p2), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 2 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 3
+
+```{r}
+sprzedaz_p3 <- sprzedaz[ktoryProdukt == "3"]
+sklep_p3 <- sklep[ktoryProdukt == "3"]
+ktorySklep_p3 <- factor(sklep_p3, levels = c("1":"10"))
+
+boxplot(sprzedaz_p3~ktorySklep_p3, xlab = "Numer sklepu", ylab = "Sprzedaż produktu trzeciego",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p3, ktorySklep_p3, mean), pch = 15)
+by(sprzedaz_p3, sklep_p3, mean)
+
+```
+
+Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
+
+```{r}
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "1"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "2"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "3"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "4"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "5"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "6"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "7"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "8"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "9"])
+shapiro.test(sprzedaz_p3[ktorySklep_p3 == "10"])
+```
+
+W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
+
+```{r}
+anova(lm(sprzedaz_p3~ktorySklep_p3))
+TukeyHSD(aov(sprzedaz_p3~ktorySklep_p3), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p3~ktorySklep_p3), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 3 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 4
+
+```{r}
+sprzedaz_p4 <- sprzedaz[ktoryProdukt == "4"]
+sklep_p4 <- sklep[ktoryProdukt == "4"]
+ktorySklep_p4 <- factor(sklep_p4, levels = c("1":"10"))
+
+boxplot(sprzedaz_p4~ktorySklep_p4, xlab = "Numer sklepu", ylab = "Sprzedaż produktu czwartego",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p4, ktorySklep_p4, mean), pch = 15)
+by(sprzedaz_p4, sklep_p4, mean)
+
+```
+
+Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
+
+```{r}
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "1"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "2"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "3"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "4"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "5"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "6"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "7"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "8"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "9"])
+shapiro.test(sprzedaz_p4[ktorySklep_p4 == "10"])
+```
+
+W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
+
+```{r}
+anova(lm(sprzedaz_p4~ktorySklep_p4))
+TukeyHSD(aov(sprzedaz_p4~ktorySklep_p4), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p4~ktorySklep_p4), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 4 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 5
+
+```{r}
+sprzedaz_p5 <- sprzedaz[ktoryProdukt == "5"]
+sklep_p5 <- sklep[ktoryProdukt == "5"]
+ktorySklep_p5 <- factor(sklep_p5, levels = c("1":"10"))
+
+boxplot(sprzedaz_p5~ktorySklep_p5, xlab = "Numer sklepu", ylab = "Sprzedaż produktu piątego",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p5, ktorySklep_p5, mean), pch = 15)
+by(sprzedaz_p5, sklep_p5, mean)
+
+```
+
+Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
+
+```{r}
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "1"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "2"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "3"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "4"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "5"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "6"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "7"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "8"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "9"])
+shapiro.test(sprzedaz_p5[ktorySklep_p5 == "10"])
+```
+
+W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
+
+```{r}
+anova(lm(sprzedaz_p5~ktorySklep_p5))
+TukeyHSD(aov(sprzedaz_p5~ktorySklep_p5), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p5~ktorySklep_p5), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 5 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 6
+
+```{r}
+sprzedaz_p6 <- sprzedaz[ktoryProdukt == "6"]
+sklep_p6 <- sklep[ktoryProdukt == "6"]
+ktorySklep_p6 <- factor(sklep_p6, levels = c("1":"10"))
+
+boxplot(sprzedaz_p6~ktorySklep_p6, xlab = "Numer sklepu", ylab = "Sprzedaż produktu nr 6",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p6, ktorySklep_p6, mean), pch = 15)
+by(sprzedaz_p6, sklep_p6, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p6~ktorySklep_p6))
+TukeyHSD(aov(sprzedaz_p6~ktorySklep_p6), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p6~ktorySklep_p6), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 6 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 7
+
+```{r}
+sprzedaz_p7 <- sprzedaz[ktoryProdukt == "7"]
+sklep_p7 <- sklep[ktoryProdukt == "7"]
+ktorySklep_p7 <- factor(sklep_p7, levels = c("1":"10"))
+
+boxplot(sprzedaz_p7~ktorySklep_p7, xlab = "Numer sklepu", ylab = "Sprzedaż produktu nr 7",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p7, ktorySklep_p7, mean), pch = 15)
+by(sprzedaz_p7, sklep_p7, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p7~ktorySklep_p7))
+TukeyHSD(aov(sprzedaz_p7~ktorySklep_p7), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p7~ktorySklep_p7), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 7 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 8
+
+```{r}
+sprzedaz_p8 <- sprzedaz[ktoryProdukt == "8"]
+sklep_p8 <- sklep[ktoryProdukt == "8"]
+ktorySklep_p8 <- factor(sklep_p8, levels = c("1":"10"))
+
+boxplot(sprzedaz_p8~ktorySklep_p8, xlab = "Numer sklepu", ylab = "Sprzedaż produktu nr8",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p8, ktorySklep_p8, mean), pch = 15)
+by(sprzedaz_p8, sklep_p8, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p8~ktorySklep_p8))
+TukeyHSD(aov(sprzedaz_p8~ktorySklep_p8), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p8~ktorySklep_p8), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 8 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 9
+
+```{r}
+sprzedaz_p9 <- sprzedaz[ktoryProdukt == "9"]
+sklep_p9 <- sklep[ktoryProdukt == "9"]
+ktorySklep_p9 <- factor(sklep_p9, levels = c("1":"10"))
+
+boxplot(sprzedaz_p9~ktorySklep_p9, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p9, ktorySklep_p9, mean), pch = 15)
+by(sprzedaz_p9, sklep_p9, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p9~ktorySklep_p9))
+TukeyHSD(aov(sprzedaz_p9~ktorySklep_p9), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p9~ktorySklep_p9), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 9 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 10
+
+```{r}
+sprzedaz_p10 <- sprzedaz[ktoryProdukt == "10"]
+sklep_p10 <- sklep[ktoryProdukt == "10"]
+ktorySklep_p10 <- factor(sklep_p10, levels = c("1":"10"))
+
+boxplot(sprzedaz_p10~ktorySklep_p10, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p10, ktorySklep_p10, mean), pch = 15)
+by(sprzedaz_p10, sklep_p10, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p10~ktorySklep_p10))
+TukeyHSD(aov(sprzedaz_p10~ktorySklep_p10), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p10~ktorySklep_p10), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 10 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 11
+
+```{r}
+sprzedaz_p11 <- sprzedaz[ktoryProdukt == "11"]
+sklep_p11 <- sklep[ktoryProdukt == "11"]
+ktorySklep_p11 <- factor(sklep_p11, levels = c("1":"10"))
+
+boxplot(sprzedaz_p11~ktorySklep_p11, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p11, ktorySklep_p11, mean), pch = 15)
+by(sprzedaz_p11, sklep_p11, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p11~ktorySklep_p11))
+TukeyHSD(aov(sprzedaz_p11~ktorySklep_p11), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p11~ktorySklep_p11), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 11 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 12
+
+```{r}
+sprzedaz_p12 <- sprzedaz[ktoryProdukt == "12"]
+sklep_p12 <- sklep[ktoryProdukt == "12"]
+ktorySklep_p12 <- factor(sklep_p12, levels = c("1":"10"))
+
+boxplot(sprzedaz_p12~ktorySklep_p12, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p12, ktorySklep_p12, mean), pch = 15)
+by(sprzedaz_p12, sklep_p12, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p12~ktorySklep_p12))
+TukeyHSD(aov(sprzedaz_p12~ktorySklep_p12), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p12~ktorySklep_p12), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 12 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 13
+
+```{r}
+sprzedaz_p13 <- sprzedaz[ktoryProdukt == "13"]
+sklep_p13 <- sklep[ktoryProdukt == "13"]
+ktorySklep_p13 <- factor(sklep_p13, levels = c("1":"10"))
+
+boxplot(sprzedaz_p13~ktorySklep_p13, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p13, ktorySklep_p13, mean), pch = 15)
+by(sprzedaz_p13, sklep_p13, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p13~ktorySklep_p13))
+TukeyHSD(aov(sprzedaz_p13~ktorySklep_p13), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p13~ktorySklep_p13), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 13 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 14
+
+```{r}
+sprzedaz_p14 <- sprzedaz[ktoryProdukt == "14"]
+sklep_p14 <- sklep[ktoryProdukt == "14"]
+ktorySklep_p14 <- factor(sklep_p14, levels = c("1":"10"))
+
+boxplot(sprzedaz_p14~ktorySklep_p14, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p14, ktorySklep_p14, mean), pch = 15)
+by(sprzedaz_p14, sklep_p14, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p14~ktorySklep_p14))
+TukeyHSD(aov(sprzedaz_p14~ktorySklep_p14), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p14~ktorySklep_p14), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 14 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 15
+
+```{r}
+sprzedaz_p15 <- sprzedaz[ktoryProdukt == "15"]
+sklep_p15 <- sklep[ktoryProdukt == "15"]
+ktorySklep_p15 <- factor(sklep_p15, levels = c("1":"10"))
+
+boxplot(sprzedaz_p15~ktorySklep_p15, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p15, ktorySklep_p15, mean), pch = 15)
+by(sprzedaz_p15, sklep_p15, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p15~ktorySklep_p15))
+TukeyHSD(aov(sprzedaz_p15~ktorySklep_p15), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p15~ktorySklep_p15), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 15 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 16
+
+```{r}
+sprzedaz_p16 <- sprzedaz[ktoryProdukt == "16"]
+sklep_p16 <- sklep[ktoryProdukt == "16"]
+ktorySklep_p16 <- factor(sklep_p16, levels = c("1":"10"))
+
+boxplot(sprzedaz_p16~ktorySklep_p16, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p16, ktorySklep_p16, mean), pch = 15)
+by(sprzedaz_p16, sklep_p16, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p16~ktorySklep_p16))
+TukeyHSD(aov(sprzedaz_p16~ktorySklep_p16), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p16~ktorySklep_p16), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 16 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 17
+
+```{r}
+sprzedaz_p17 <- sprzedaz[ktoryProdukt == "17"]
+sklep_p17 <- sklep[ktoryProdukt == "17"]
+ktorySklep_p17 <- factor(sklep_p17, levels = c("1":"10"))
+
+boxplot(sprzedaz_p17~ktorySklep_p17, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p17, ktorySklep_p17, mean), pch = 15)
+by(sprzedaz_p17, sklep_p17, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p17~ktorySklep_p17))
+TukeyHSD(aov(sprzedaz_p17~ktorySklep_p17), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p17~ktorySklep_p17), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 17 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 18
+
+```{r}
+sprzedaz_p18 <- sprzedaz[ktoryProdukt == "18"]
+sklep_p18 <- sklep[ktoryProdukt == "18"]
+ktorySklep_p18 <- factor(sklep_p18, levels = c("1":"10"))
+
+boxplot(sprzedaz_p18~ktorySklep_p18, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p18, ktorySklep_p18, mean), pch = 15)
+by(sprzedaz_p18, sklep_p18, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p18~ktorySklep_p18))
+TukeyHSD(aov(sprzedaz_p18~ktorySklep_p18), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p18~ktorySklep_p18), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 18 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 19
+
+```{r}
+sprzedaz_p19 <- sprzedaz[ktoryProdukt == "19"]
+sklep_p19 <- sklep[ktoryProdukt == "19"]
+ktorySklep_p19 <- factor(sklep_p19, levels = c("1":"10"))
+
+boxplot(sprzedaz_p19~ktorySklep_p19, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p19, ktorySklep_p19, mean), pch = 15)
+by(sprzedaz_p19, sklep_p19, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p19~ktorySklep_p19))
+TukeyHSD(aov(sprzedaz_p19~ktorySklep_p19), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p19~ktorySklep_p19), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 19 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 20
+
+```{r}
+sprzedaz_p20 <- sprzedaz[ktoryProdukt == "20"]
+sklep_p20 <- sklep[ktoryProdukt == "20"]
+ktorySklep_p20 <- factor(sklep_p20, levels = c("1":"10"))
+
+boxplot(sprzedaz_p20~ktorySklep_p20, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p20, ktorySklep_p20, mean), pch = 15)
+by(sprzedaz_p20, sklep_p20, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p20~ktorySklep_p20))
+TukeyHSD(aov(sprzedaz_p20~ktorySklep_p20), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p20~ktorySklep_p20), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 20 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 21
+
+```{r}
+sprzedaz_p21 <- sprzedaz[ktoryProdukt == "21"]
+sklep_p21 <- sklep[ktoryProdukt == "21"]
+ktorySklep_p21 <- factor(sklep_p21, levels = c("1":"10"))
+
+boxplot(sprzedaz_p21~ktorySklep_p21, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p21, ktorySklep_p21, mean), pch = 15)
+by(sprzedaz_p21, sklep_p21, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p21~ktorySklep_p21))
+TukeyHSD(aov(sprzedaz_p21~ktorySklep_p21), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p21~ktorySklep_p21), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 21 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 22
+
+```{r}
+sprzedaz_p22 <- sprzedaz[ktoryProdukt == "22"]
+sklep_p22 <- sklep[ktoryProdukt == "22"]
+ktorySklep_p22 <- factor(sklep_p22, levels = c("1":"10"))
+
+boxplot(sprzedaz_p22~ktorySklep_p22, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p22, ktorySklep_p22, mean), pch = 15)
+by(sprzedaz_p22, sklep_p22, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p22~ktorySklep_p22))
+TukeyHSD(aov(sprzedaz_p22~ktorySklep_p22), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p22~ktorySklep_p22), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 22 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 23
+
+```{r}
+sprzedaz_p23 <- sprzedaz[ktoryProdukt == "23"]
+sklep_p23 <- sklep[ktoryProdukt == "23"]
+ktorySklep_p23 <- factor(sklep_p23, levels = c("1":"10"))
+
+boxplot(sprzedaz_p23~ktorySklep_p23, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p23, ktorySklep_p23, mean), pch = 15)
+by(sprzedaz_p23, sklep_p23, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p23~ktorySklep_p23))
+TukeyHSD(aov(sprzedaz_p23~ktorySklep_p23), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p23~ktorySklep_p23), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 23 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 24
+
+```{r}
+sprzedaz_p24 <- sprzedaz[ktoryProdukt == "24"]
+sklep_p24 <- sklep[ktoryProdukt == "24"]
+ktorySklep_p24 <- factor(sklep_p24, levels = c("1":"10"))
+
+boxplot(sprzedaz_p24~ktorySklep_p24, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p24, ktorySklep_p24, mean), pch = 15)
+by(sprzedaz_p24, sklep_p24, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p24~ktorySklep_p24))
+TukeyHSD(aov(sprzedaz_p24~ktorySklep_p24), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p24~ktorySklep_p24), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 24 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 25
+
+```{r}
+sprzedaz_p25 <- sprzedaz[ktoryProdukt == "25"]
+sklep_p25 <- sklep[ktoryProdukt == "25"]
+ktorySklep_p25 <- factor(sklep_p25, levels = c("1":"10"))
+
+boxplot(sprzedaz_p25~ktorySklep_p25, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p25, ktorySklep_p25, mean), pch = 15)
+by(sprzedaz_p25, sklep_p25, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p25~ktorySklep_p25))
+TukeyHSD(aov(sprzedaz_p25~ktorySklep_p25), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p25~ktorySklep_p25), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 25 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 26
+
+```{r}
+sprzedaz_p26 <- sprzedaz[ktoryProdukt == "26"]
+sklep_p26 <- sklep[ktoryProdukt == "26"]
+ktorySklep_p26 <- factor(sklep_p26, levels = c("1":"10"))
+
+boxplot(sprzedaz_p26~ktorySklep_p26, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p26, ktorySklep_p26, mean), pch = 15)
+by(sprzedaz_p26, sklep_p26, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p26~ktorySklep_p26))
+TukeyHSD(aov(sprzedaz_p26~ktorySklep_p26), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p26~ktorySklep_p26), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 26 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 27
+
+```{r}
+sprzedaz_p27 <- sprzedaz[ktoryProdukt == "27"]
+sklep_p27 <- sklep[ktoryProdukt == "27"]
+ktorySklep_p27 <- factor(sklep_p27, levels = c("1":"10"))
+
+boxplot(sprzedaz_p27~ktorySklep_p27, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p27, ktorySklep_p27, mean), pch = 15)
+by(sprzedaz_p27, sklep_p27, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p27~ktorySklep_p27))
+TukeyHSD(aov(sprzedaz_p27~ktorySklep_p27), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p27~ktorySklep_p27), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 27 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 28
+
+```{r}
+sprzedaz_p28 <- sprzedaz[ktoryProdukt == "28"]
+sklep_p28 <- sklep[ktoryProdukt == "28"]
+ktorySklep_p28 <- factor(sklep_p28, levels = c("1":"10"))
+
+boxplot(sprzedaz_p28~ktorySklep_p28, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p28, ktorySklep_p28, mean), pch = 15)
+by(sprzedaz_p28, sklep_p28, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p28~ktorySklep_p28))
+TukeyHSD(aov(sprzedaz_p28~ktorySklep_p28), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p28~ktorySklep_p28), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 28 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 29
+
+```{r}
+sprzedaz_p29 <- sprzedaz[ktoryProdukt == "29"]
+sklep_p29 <- sklep[ktoryProdukt == "29"]
+ktorySklep_p29 <- factor(sklep_p29, levels = c("1":"10"))
+
+boxplot(sprzedaz_p29~ktorySklep_p29, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p29, ktorySklep_p29, mean), pch = 15)
+by(sprzedaz_p29, sklep_p29, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p29~ktorySklep_p29))
+TukeyHSD(aov(sprzedaz_p29~ktorySklep_p29), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p29~ktorySklep_p29), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 29 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 30
+
+```{r}
+sprzedaz_p30 <- sprzedaz[ktoryProdukt == "30"]
+sklep_p30 <- sklep[ktoryProdukt == "30"]
+ktorySklep_p30 <- factor(sklep_p30, levels = c("1":"10"))
+
+boxplot(sprzedaz_p30~ktorySklep_p30, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p30, ktorySklep_p30, mean), pch = 15)
+by(sprzedaz_p30, sklep_p30, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p30~ktorySklep_p30))
+TukeyHSD(aov(sprzedaz_p30~ktorySklep_p30), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p30~ktorySklep_p30), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 30 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 31
+
+```{r}
+sprzedaz_p31 <- sprzedaz[ktoryProdukt == "31"]
+sklep_p31 <- sklep[ktoryProdukt == "31"]
+ktorySklep_p31 <- factor(sklep_p31, levels = c("1":"10"))
+
+boxplot(sprzedaz_p31~ktorySklep_p31, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p31, ktorySklep_p31, mean), pch = 15)
+by(sprzedaz_p31, sklep_p31, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p31~ktorySklep_p31))
+TukeyHSD(aov(sprzedaz_p31~ktorySklep_p31), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p31~ktorySklep_p31), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 31 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 32
+
+```{r}
+sprzedaz_p32 <- sprzedaz[ktoryProdukt == "32"]
+sklep_p32 <- sklep[ktoryProdukt == "32"]
+ktorySklep_p32 <- factor(sklep_p32, levels = c("1":"10"))
+
+boxplot(sprzedaz_p32~ktorySklep_p32, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p32, ktorySklep_p32, mean), pch = 15)
+by(sprzedaz_p32, sklep_p32, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p32~ktorySklep_p32))
+TukeyHSD(aov(sprzedaz_p32~ktorySklep_p32), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p32~ktorySklep_p32), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 32 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 33
+
+```{r}
+sprzedaz_p33 <- sprzedaz[ktoryProdukt == "33"]
+sklep_p33 <- sklep[ktoryProdukt == "33"]
+ktorySklep_p33 <- factor(sklep_p33, levels = c("1":"10"))
+
+boxplot(sprzedaz_p33~ktorySklep_p33, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p33, ktorySklep_p33, mean), pch = 15)
+by(sprzedaz_p33, sklep_p33, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p33~ktorySklep_p33))
+TukeyHSD(aov(sprzedaz_p33~ktorySklep_p33), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p33~ktorySklep_p33), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 33 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 34
+
+```{r}
+sprzedaz_p34 <- sprzedaz[ktoryProdukt == "34"]
+sklep_p34 <- sklep[ktoryProdukt == "34"]
+ktorySklep_p34 <- factor(sklep_p34, levels = c("1":"10"))
+
+boxplot(sprzedaz_p34~ktorySklep_p34, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p34, ktorySklep_p34, mean), pch = 15)
+by(sprzedaz_p34, sklep_p34, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p34~ktorySklep_p34))
+TukeyHSD(aov(sprzedaz_p34~ktorySklep_p34), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p34~ktorySklep_p34), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 34 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 35
+
+```{r}
+sprzedaz_p35 <- sprzedaz[ktoryProdukt == "35"]
+sklep_p35 <- sklep[ktoryProdukt == "35"]
+ktorySklep_p35 <- factor(sklep_p35, levels = c("1":"10"))
+
+boxplot(sprzedaz_p35~ktorySklep_p35, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p35, ktorySklep_p35, mean), pch = 15)
+by(sprzedaz_p35, sklep_p35, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p35~ktorySklep_p35))
+TukeyHSD(aov(sprzedaz_p35~ktorySklep_p35), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p35~ktorySklep_p35), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 35 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 36
+
+```{r}
+sprzedaz_p36 <- sprzedaz[ktoryProdukt == "36"]
+sklep_p36 <- sklep[ktoryProdukt == "36"]
+ktorySklep_p36 <- factor(sklep_p36, levels = c("1":"10"))
+
+boxplot(sprzedaz_p36~ktorySklep_p36, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p36, ktorySklep_p36, mean), pch = 15)
+by(sprzedaz_p36, sklep_p36, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p36~ktorySklep_p36))
+TukeyHSD(aov(sprzedaz_p36~ktorySklep_p36), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p36~ktorySklep_p36), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 36 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 37
+
+```{r}
+sprzedaz_p37 <- sprzedaz[ktoryProdukt == "37"]
+sklep_p37 <- sklep[ktoryProdukt == "37"]
+ktorySklep_p37 <- factor(sklep_p37, levels = c("1":"10"))
+
+boxplot(sprzedaz_p37~ktorySklep_p37, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p37, ktorySklep_p37, mean), pch = 15)
+by(sprzedaz_p37, sklep_p37, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p37~ktorySklep_p37))
+TukeyHSD(aov(sprzedaz_p37~ktorySklep_p37), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p37~ktorySklep_p37), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 37 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 38
+
+```{r}
+sprzedaz_p38 <- sprzedaz[ktoryProdukt == "38"]
+sklep_p38 <- sklep[ktoryProdukt == "38"]
+ktorySklep_p38 <- factor(sklep_p38, levels = c("1":"10"))
+
+boxplot(sprzedaz_p38~ktorySklep_p38, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p38, ktorySklep_p38, mean), pch = 15)
+by(sprzedaz_p38, sklep_p38, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p38~ktorySklep_p38))
+TukeyHSD(aov(sprzedaz_p38~ktorySklep_p38), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p38~ktorySklep_p38), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 38 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 39
+
+```{r}
+sprzedaz_p39 <- sprzedaz[ktoryProdukt == "39"]
+sklep_p39 <- sklep[ktoryProdukt == "39"]
+ktorySklep_p39 <- factor(sklep_p39, levels = c("1":"10"))
+
+boxplot(sprzedaz_p39~ktorySklep_p39, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p39, ktorySklep_p39, mean), pch = 15)
+by(sprzedaz_p39, sklep_p39, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p39~ktorySklep_p39))
+TukeyHSD(aov(sprzedaz_p39~ktorySklep_p39), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p39~ktorySklep_p39), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 39 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 40
+
+```{r}
+sprzedaz_p40 <- sprzedaz[ktoryProdukt == "40"]
+sklep_p40 <- sklep[ktoryProdukt == "40"]
+ktorySklep_p40 <- factor(sklep_p40, levels = c("1":"10"))
+
+boxplot(sprzedaz_p40~ktorySklep_p40, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p40, ktorySklep_p40, mean), pch = 15)
+by(sprzedaz_p40, sklep_p40, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p40~ktorySklep_p40))
+TukeyHSD(aov(sprzedaz_p40~ktorySklep_p40), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p40~ktorySklep_p40), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 40 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 41
+
+```{r}
+sprzedaz_p41 <- sprzedaz[ktoryProdukt == "41"]
+sklep_p41 <- sklep[ktoryProdukt == "41"]
+ktorySklep_p41 <- factor(sklep_p41, levels = c("1":"10"))
+
+boxplot(sprzedaz_p41~ktorySklep_p41, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p41, ktorySklep_p41, mean), pch = 15)
+by(sprzedaz_p41, sklep_p41, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p41~ktorySklep_p41))
+TukeyHSD(aov(sprzedaz_p41~ktorySklep_p41), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p41~ktorySklep_p41), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 41 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 42
+
+```{r}
+sprzedaz_p42 <- sprzedaz[ktoryProdukt == "42"]
+sklep_p42 <- sklep[ktoryProdukt == "42"]
+ktorySklep_p42 <- factor(sklep_p42, levels = c("1":"10"))
+
+boxplot(sprzedaz_p42~ktorySklep_p42, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p42, ktorySklep_p42, mean), pch = 15)
+by(sprzedaz_p42, sklep_p42, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p42~ktorySklep_p42))
+TukeyHSD(aov(sprzedaz_p42~ktorySklep_p42), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p42~ktorySklep_p42), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 42 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 43
+
+```{r}
+sprzedaz_p43 <- sprzedaz[ktoryProdukt == "43"]
+sklep_p43 <- sklep[ktoryProdukt == "43"]
+ktorySklep_p43 <- factor(sklep_p43, levels = c("1":"10"))
+
+boxplot(sprzedaz_p43~ktorySklep_p43, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p43, ktorySklep_p43, mean), pch = 15)
+by(sprzedaz_p43, sklep_p43, mean)
+
+```
+
+
+```{r}
+anova(lm(sprzedaz_p43~ktorySklep_p43))
+TukeyHSD(aov(sprzedaz_p43~ktorySklep_p43), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p43~ktorySklep_p43), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 43 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 44
+
+```{r}
+sprzedaz_p44 <- sprzedaz[ktoryProdukt == "44"]
+sklep_p44 <- sklep[ktoryProdukt == "44"]
+ktorySklep_p44 <- factor(sklep_p44, levels = c("1":"10"))
+
+boxplot(sprzedaz_p44~ktorySklep_p44, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p44, ktorySklep_p44, mean), pch = 15)
+by(sprzedaz_p44, sklep_p44, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p44~ktorySklep_p44))
+TukeyHSD(aov(sprzedaz_p44~ktorySklep_p44), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p44~ktorySklep_p44), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 44 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 45
+
+```{r}
+sprzedaz_p45 <- sprzedaz[ktoryProdukt == "45"]
+sklep_p45 <- sklep[ktoryProdukt == "45"]
+ktorySklep_p45 <- factor(sklep_p45, levels = c("1":"10"))
+
+boxplot(sprzedaz_p45~ktorySklep_p45, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p45, ktorySklep_p45, mean), pch = 15)
+by(sprzedaz_p45, sklep_p45, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p45~ktorySklep_p45))
+TukeyHSD(aov(sprzedaz_p45~ktorySklep_p45), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p45~ktorySklep_p45), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 45 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 46
+
+```{r}
+sprzedaz_p46 <- sprzedaz[ktoryProdukt == "46"]
+sklep_p46 <- sklep[ktoryProdukt == "46"]
+ktorySklep_p46 <- factor(sklep_p46, levels = c("1":"10"))
+
+boxplot(sprzedaz_p46~ktorySklep_p46, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p46, ktorySklep_p46, mean), pch = 15)
+by(sprzedaz_p46, sklep_p46, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p46~ktorySklep_p46))
+TukeyHSD(aov(sprzedaz_p46~ktorySklep_p46), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p46~ktorySklep_p46), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 46 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 47
+
+```{r}
+sprzedaz_p47 <- sprzedaz[ktoryProdukt == "47"]
+sklep_p47 <- sklep[ktoryProdukt == "47"]
+ktorySklep_p47 <- factor(sklep_p47, levels = c("1":"10"))
+
+boxplot(sprzedaz_p47~ktorySklep_p47, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p47, ktorySklep_p47, mean), pch = 15)
+by(sprzedaz_p47, sklep_p47, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p47~ktorySklep_p47))
+TukeyHSD(aov(sprzedaz_p47~ktorySklep_p47), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p47~ktorySklep_p47), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 47 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 48
+
+```{r}
+sprzedaz_p48 <- sprzedaz[ktoryProdukt == "48"]
+sklep_p48 <- sklep[ktoryProdukt == "48"]
+ktorySklep_p48 <- factor(sklep_p48, levels = c("1":"10"))
+
+boxplot(sprzedaz_p48~ktorySklep_p48, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p48, ktorySklep_p48, mean), pch = 15)
+by(sprzedaz_p48, sklep_p48, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p48~ktorySklep_p48))
+TukeyHSD(aov(sprzedaz_p48~ktorySklep_p48), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p48~ktorySklep_p48), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 48 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 49
+
+```{r}
+sprzedaz_p49 <- sprzedaz[ktoryProdukt == "49"]
+sklep_p49 <- sklep[ktoryProdukt == "49"]
+ktorySklep_p49 <- factor(sklep_p49, levels = c("1":"10"))
+
+boxplot(sprzedaz_p49~ktorySklep_p49, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p49, ktorySklep_p49, mean), pch = 15)
+by(sprzedaz_p49, sklep_p49, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p49~ktorySklep_p49))
+TukeyHSD(aov(sprzedaz_p49~ktorySklep_p49), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p49~ktorySklep_p49), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 49 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+### Produkt 50
+
+```{r}
+sprzedaz_p50 <- sprzedaz[ktoryProdukt == "50"]
+sklep_p50 <- sklep[ktoryProdukt == "50"]
+ktorySklep_p50 <- factor(sklep_p50, levels = c("1":"10"))
+
+boxplot(sprzedaz_p50~ktorySklep_p50, xlab = "Numer sklepu", ylab = "Sprzedaż produktu",
+        col = brewer.pal(n = 10, name = "PiYG"))
+points(1:10, by(sprzedaz_p50, ktorySklep_p50, mean), pch = 15)
+by(sprzedaz_p50, sklep_p50, mean)
+
+```
+
+```{r}
+anova(lm(sprzedaz_p50~ktorySklep_p50))
+TukeyHSD(aov(sprzedaz_p50~ktorySklep_p50), conf.level = 0.95)
+plot(TukeyHSD(aov(sprzedaz_p50~ktorySklep_p50), conf.level = 0.95))
+```
+
+**Średnia sprzedaż produktu 50 jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
+
+## Wnioski
+
+- **Średnia sprzedaż produktów jest podobna dla następujących par sklepów: _9-4, 6-5_ **
+- **Średnia sprzedaż wszystkich produktów (1 – 50) jest podobna dla następujących par sklepów: _10-3, 9-4, 6-5_ **
