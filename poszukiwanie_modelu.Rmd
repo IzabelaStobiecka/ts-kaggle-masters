@@ -15,6 +15,7 @@ library(RColorBrewer)
 library(forecast)
 library(tseries)
 library(DescTools)
+library(tidyverse)
 
 sciezka_pliku <- paste0("dane/train.csv")
 ```
@@ -34,73 +35,110 @@ head(dane)
 ```{r}
 daneprodukt1 = dane
 daneprodukt1 %>%
-filter(item == 1) %>%
-filter(store == 1) -> danep1s1
-
+filter(item == 1, store == 1) -> danep1s1
 daneprodukt1 %>%
-filter(item == 1) %>%
-filter(store == 2) -> danep1s2
+filter(item == 1, store == 2) -> danep1s2
 daneprodukt1 %>%
-filter(item == 1) %>%
-filter(store == 3) -> danep1s310
+filter(item == 1, store == 3) -> danep1s310
 daneprodukt1 %>%
-filter(item == 1) %>%
-filter(store == 4) -> danep1s49
+filter(item == 1, store == 4) -> danep1s49
 daneprodukt1 %>%
-filter(item == 1) %>%
-filter(store == 5) -> danep1s56
+filter(item == 1, store == 5) -> danep1s56
 daneprodukt1 %>%
-filter(item == 1) %>%
-filter(store == 7) -> danep1s7
+filter(item == 1, store == 7) -> danep1s7
 daneprodukt1 %>%
-filter(item == 1) %>%
-filter(store == 8) -> danep1s8
+filter(item == 1, store == 8) -> danep1s8
 ```
 
 ```{r}
-sc0101 = ts(danep1s1$sales, frequency = 1)
+sc0101 = ts(danep1s1$sales, frequency = 365)
 tsdisplay(sc0101)
 adf.test(sc0101)
+```
+```{r}
+decomp0101 <- stl(sc0101, s.window = "periodic")
+autoplot(decomp0101) +
+    labs(title = "Dekompozycja szeregu")
+```
+
+Szereg z usuniętym wpływem sezonowym:
+```{r}
+seasadj0101 <- seasadj(decomp0101)
+tsdisplay(seasadj0101)
+adf.test(seasadj0101)
 ```
 
  
 ```{r}
-sc0102 = ts(danep1s2$sales, frequency = 1)
+sc0102 = ts(danep1s2$sales, frequency = 365)
 tsdisplay(sc0102)
 adf.test(sc0102)
 ```
 ```{r}
-sc0103 = ts(danep1s310$sales, frequency = 1)
+sc0103 = ts(danep1s310$sales, frequency = 365)
 tsdisplay(sc0103)
 adf.test(sc0103)
 ```
 ```{r}
-sc0104 = ts(danep1s49$sales, frequency = 1)
+sc0104 = ts(danep1s49$sales, frequency = 365)
 tsdisplay(sc0104)
 adf.test(sc0104)
 ```
 
 
 ```{r}
-sc0105 = ts(danep1s56$sales, frequency = 1)
+sc0105 = ts(danep1s56$sales, frequency = 365)
 tsdisplay(sc0105)
 adf.test(sc0105)
 ```
 
 ```{r}
-sc0107 = ts(danep1s7$sales, frequency = 1)
+sc0107 = ts(danep1s7$sales, frequency = 365)
 tsdisplay(sc0107)
 adf.test(sc0107)
 ```
 
 ```{r}
-sc0108 = ts(danep1s8$sales, frequency = 1)
+sc0108 = ts(danep1s8$sales, frequency = 365)
 tsdisplay(sc0108)
 adf.test(sc0108)
 
 ```
 
+## Podział na zbiór uczący i testowy
+```{r}
+end_ts <- end(sc0101) - c(1, 0)
+start_ts <- end_ts + c(0, 1)
+ts_train <- window(seasadj0101, end = end_ts)
+ts_test <- window(sc0101, start = start_ts)
+
+```
+
 ## Model ARIMA
+```{r}
+model_arima <- arima(ts_train, order = c(5,1,1))
+summary(model_arima)
+```
+
+Dodanie sezonowości:
+```{r}
+add_seasonality <- function(x) {
+    x$mean <- x$mean + seasonal(decomp0101)[-(1:length(ts_train))]
+    return(x)
+}
+```
+Predykcja:
+```{r}
+predykcja <- forecast(model_arima, h = length(ts_test))
+predykcja <- add_seasonality(predykcja)
+```
+
+Wykresy:
+```{r}
+plot(sc0101)
+lines(predykcja$mean, col = brewer.pal(n = 10, name = "PiYG")[8])
+```
+
 
 ```{r}
 length(sc0101)
