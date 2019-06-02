@@ -19,7 +19,18 @@ library(DescTools)
 sciezka_pliku <- paste0("dane/train.csv")
 ```
 
+## Wczytywanie danych
 
+```{r}
+dane <- read.csv(sciezka_pliku)
+sklep <- dane$store
+produkt <- dane$item
+sprzedaz <- dane$sales
+ktoryProdukt <- factor(produkt, levels = c("1":"50"))
+ktorySklep <- factor(sklep, levels = c("1":"10"))
+head(dane)
+```
+## Utworzenie szeregów 
 ```{r}
 daneprodukt1 = dane
 daneprodukt1 %>%
@@ -50,9 +61,6 @@ filter(store == 8) -> danep1s8
 sc0101 = ts(danep1s1$sales, frequency = 1)
 tsdisplay(sc0101)
 adf.test(sc0101)
-```
-```{r}
-
 ```
 
  
@@ -91,6 +99,8 @@ tsdisplay(sc0108)
 adf.test(sc0108)
 
 ```
+
+## Model ARIMA
 
 ```{r}
 length(sc0101)
