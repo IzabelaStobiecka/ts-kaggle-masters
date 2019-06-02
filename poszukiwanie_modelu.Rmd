@@ -1,0 +1,160 @@
+---
+title: "Poszukiwanie najlepszego modelu"
+author: 'Grupa A: Izabela Stobiecka, Anita Księżak, Sandra Sobór, Jakub Bujnowicz'
+date: "2 czerwca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r pakiety, include = FALSE}
+library(dplyr)
+library(RColorBrewer)
+library(forecast)
+library(tseries)
+library(DescTools)
+
+sciezka_pliku <- paste0("dane/train.csv")
+```
+
+
+```{r}
+daneprodukt1 = dane
+daneprodukt1 %>%
+filter(item == 1) %>%
+filter(store == 1) -> danep1s1
+
+daneprodukt1 %>%
+filter(item == 1) %>%
+filter(store == 2) -> danep1s2
+daneprodukt1 %>%
+filter(item == 1) %>%
+filter(store == 3) -> danep1s310
+daneprodukt1 %>%
+filter(item == 1) %>%
+filter(store == 4) -> danep1s49
+daneprodukt1 %>%
+filter(item == 1) %>%
+filter(store == 5) -> danep1s56
+daneprodukt1 %>%
+filter(item == 1) %>%
+filter(store == 7) -> danep1s7
+daneprodukt1 %>%
+filter(item == 1) %>%
+filter(store == 8) -> danep1s8
+```
+
+```{r}
+sc0101 = ts(danep1s1$sales, frequency = 1)
+tsdisplay(sc0101)
+adf.test(sc0101)
+```
+```{r}
+
+```
+
+ 
+```{r}
+sc0102 = ts(danep1s2$sales, frequency = 1)
+tsdisplay(sc0102)
+adf.test(sc0102)
+```
+```{r}
+sc0103 = ts(danep1s310$sales, frequency = 1)
+tsdisplay(sc0103)
+adf.test(sc0103)
+```
+```{r}
+sc0104 = ts(danep1s49$sales, frequency = 1)
+tsdisplay(sc0104)
+adf.test(sc0104)
+```
+
+
+```{r}
+sc0105 = ts(danep1s56$sales, frequency = 1)
+tsdisplay(sc0105)
+adf.test(sc0105)
+```
+
+```{r}
+sc0107 = ts(danep1s7$sales, frequency = 1)
+tsdisplay(sc0107)
+adf.test(sc0107)
+```
+
+```{r}
+sc0108 = ts(danep1s8$sales, frequency = 1)
+tsdisplay(sc0108)
+adf.test(sc0108)
+
+```
+
+```{r}
+length(sc0101)
+trainp1s1 = window(sc0101, end = 1600)
+testp1s1 = window(sc0101, start = 1601)
+ARIMAp1s1 = auto.arima(trainp1s1)
+fp1s1 = forecast(ARIMAp1s1, h = length(testp1s1))
+plot(fp1s1)
+
+```
+```{r}
+length(sc0102)
+trainp1s2 = window(sc0102, end = 1600)
+testp1s2 = window(sc0102, start = 1601)
+ARIMAp1s2 = auto.arima(trainp1s2)
+fp1s2 = forecast(ARIMAp1s2, h = length(testp1s2))
+plot(fp1s2)
+
+```
+```{r}
+length(sc0103)
+trainp1s3 = window(sc0103, end = 1600)
+testp1s3 = window(sc0103, start = 1601)
+ARIMAp1s3 = auto.arima(trainp1s3)
+fp1s3 = forecast(ARIMAp1s3, h = length(testp1s3))
+plot(fp1s3)
+
+```
+
+```{r}
+length(sc0104)
+trainp1s4 = window(sc0104, end = 1600)
+testp1s4 = window(sc0104, start = 1601)
+ARIMAp1s4 = auto.arima(trainp1s4)
+fp1s4 = forecast(ARIMAp1s4, h = length(testp1s4))
+plot(fp1s4)
+
+```
+```{r}
+length(sc0105)
+trainp1s5 = window(sc0105, end = 1600)
+testp1s5 = window(sc0105, start = 1601)
+ARIMAp1s5 = auto.arima(trainp1s5)
+fp1s5 = forecast(ARIMAp1s5, h = length(testp1s5))
+plot(fp1s5)
+
+```
+
+```{r}
+length(sc0107)
+trainp1s7 = window(sc0107, end = 1600)
+testp1s7 = window(sc0107, start = 1601)
+ARIMAp1s7 = auto.arima(trainp1s7)
+fp1s7 = forecast(ARIMAp1s7, h = length(testp1s7))
+plot(fp1s7)
+
+```
+
+```{r}
+length(sc0108)
+trainp1s8 = window(sc0108, end = 1600)
+testp1s8 = window(sc0108, start = 1601)
+ARIMAp1s8 = auto.arima(trainp1s8)
+fp1s8 = forecast(ARIMAp1s8, h = length(testp1s8))
+plot(fp1s8)
+
+```
