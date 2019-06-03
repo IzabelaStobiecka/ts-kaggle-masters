@@ -1,6 +1,6 @@
 ---
 title: "Poszukiwanie najlepszego modelu"
-author: 'Grupa A: Izabela Stobiecka, Anita Księżak, Sandra Sobór, Jakub Bujnowicz'
+author: 'Grupa A: Kowarik Aleksandra, Księżak Anita, Mruk Karolina, Sobór Sandra, Stobiecka Izabela, Szymańska Joanna'
 date: "2 czerwca 2019"
 output: html_document
 ---
