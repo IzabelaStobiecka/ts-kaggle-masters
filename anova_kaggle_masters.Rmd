@@ -1,5 +1,5 @@
 ---
-title: "Projekt semestralny grupowy"
+title: "Projekt semestralny grupowy - ANOVA"
 author: 'Grupa A: Kowarik Aleksandra, Księżak Anita, Mruk Karolina, Sobór Sandra, Stobiecka Izabela, Szymańska Joanna'
 date: "31 maja 2019"
 output: html_document
@@ -115,7 +115,17 @@ shapiro.test(sprzedaz_p1[ktorySklep_p1 == "9"])
 shapiro.test(sprzedaz_p1[ktorySklep_p1 == "10"])
 ```
 
-W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
+Hipoteza zerowa --> H0: Próba pochodzi z populacji o rozkładzie normalnym.
+
+Hipoteza alternatywna --> H1: Próba nie pochodzi z populacji o rozkładzie normalnym.
+
+
+p − value <= ALFA --> odrzucamy H0 na korzysc H1
+
+p − value > ALFA --> nie ma podstaw do odrzucenia H0
+
+
+W celu dalszych badań załóżmy jednak, że każda próba pochodzi z rozkładu **zbliżonego** do rozkładu normalnego.
 
 ```{r}
 anova(lm(sprzedaz_p1~ktorySklep_p1))
@@ -139,22 +149,7 @@ by(sprzedaz_p2, sklep_p2, mean)
 
 ```
 
-Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
 
-```{r}
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "1"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "2"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "3"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "4"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "5"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "6"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "7"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "8"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "9"])
-shapiro.test(sprzedaz_p2[ktorySklep_p2 == "10"])
-```
-
-W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
 
 ```{r}
 anova(lm(sprzedaz_p2~ktorySklep_p2))
@@ -178,22 +173,6 @@ by(sprzedaz_p3, sklep_p3, mean)
 
 ```
 
-Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
-
-```{r}
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "1"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "2"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "3"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "4"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "5"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "6"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "7"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "8"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "9"])
-shapiro.test(sprzedaz_p3[ktorySklep_p3 == "10"])
-```
-
-W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
 
 ```{r}
 anova(lm(sprzedaz_p3~ktorySklep_p3))
@@ -217,23 +196,6 @@ by(sprzedaz_p4, sklep_p4, mean)
 
 ```
 
-Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
-
-```{r}
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "1"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "2"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "3"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "4"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "5"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "6"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "7"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "8"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "9"])
-shapiro.test(sprzedaz_p4[ktorySklep_p4 == "10"])
-```
-
-W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
-
 ```{r}
 anova(lm(sprzedaz_p4~ktorySklep_p4))
 TukeyHSD(aov(sprzedaz_p4~ktorySklep_p4), conf.level = 0.95)
@@ -255,23 +217,6 @@ points(1:10, by(sprzedaz_p5, ktorySklep_p5, mean), pch = 15)
 by(sprzedaz_p5, sklep_p5, mean)
 
 ```
-
-Sprawdzenie założeń: normalność rozkładu każdej zmiennej losowej
-
-```{r}
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "1"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "2"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "3"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "4"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "5"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "6"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "7"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "8"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "9"])
-shapiro.test(sprzedaz_p5[ktorySklep_p5 == "10"])
-```
-
-W każdym przypadku p − value <= ALFA --> nie ma podstaw do odrzucenia H0 --> rozkład zbliżony do rozkładu normalnego
 
 ```{r}
 anova(lm(sprzedaz_p5~ktorySklep_p5))
