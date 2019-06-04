@@ -55,6 +55,6 @@ analiza_produktu <- function(x, alfa = 0.05) {
     p_values <- t[["ktorySklep_p"]][ , 4]
     istotne <- which(p_values >= alfa)
     print("Pary, dla których śrendie nie różnią się istotnie statystycznie")
-    names(istotne)
+    print(names(istotne))
 }
 
