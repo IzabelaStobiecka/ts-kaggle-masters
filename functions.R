@@ -55,6 +55,35 @@ analiza_produktu <- function(x, alfa = 0.05) {
     p_values <- t[["ktorySklep_p"]][ , 4]
     istotne <- which(p_values >= alfa)
     print("Pary, dla których śrendie nie różnią się istotnie statystycznie")
-    names(istotne)
+    print(names(istotne))
 }
 
+
+#funkcja, która dla podzielonych na produkty danych dokona zmiany
+#sklepu 10 na 3, 9 na 4, 6 na 5 oraz jako sales weźmie średnią
+#z sales dla obu złączonych sklepów.
+
+zamiana_sklepow <- function(x, domyslna, zmieniana) {
+
+    #x to wstepne dane
+    x %>%
+        filter(store == domyslna) %>%
+        select(sales) -> kol1
+    x %>%
+        filter(store == zmieniana) %>%
+        select(sales) -> kol2
+
+    #srednia dla dwoch zlaczanych kolumn
+    kolumna_wyjsciowa <- (kol1 + kol2) / 2
+
+    #usuwamy dane z drugim sklepem
+    x %>%
+        filter(store != zmieniana) -> usuniete_zmieniane
+
+    indeksy <- which(usuniete_zmieniane$store == domyslna)
+
+    #wklejamy srednie w wiersze z pierwszego sklepu
+    usuniete_zmieniane[indeksy, 4] <- kolumna_wyjsciowa
+
+    return(usuniete_zmieniane)
+}
