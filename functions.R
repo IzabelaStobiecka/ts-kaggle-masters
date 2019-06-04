@@ -21,7 +21,9 @@ shapiro_pvalue <- function(x) {
 
 
 # Funkcja, która dla listy wykonuje boxplot z podziałem na sklepy,
-# weryfikację normalności rozkładu oraz ANOVE i test Tukey'a
+# weryfikację normalności rozkładu oraz ANOVE i test Tukey'a oraz
+# wypisanie par, dla ktorych roznice sredniej nie są istotne
+# statystycznie
 
 analiza_produktu <- function(x, alfa = 0.05) {
 
@@ -49,8 +51,10 @@ analiza_produktu <- function(x, alfa = 0.05) {
     print("W celu dalszych badan zalozmy jednak, że kazda proba pochodzi z rozkladu zblizonego do rozkladu normalnego. Teraz wykonamy analize wariancji i testy post hoc.")
 
     anova(lm(sprzedaz_p ~ ktorySklep_p))
-    print(TukeyHSD(aov(sprzedaz_p~ktorySklep_p), conf.level = 1 - alfa))
-    print("Przedstawmy jeszcze powyzsze wyniki na wykresie:")
-    plot(TukeyHSD(aov(sprzedaz_p~ktorySklep_p), conf.level = 1 - alfa))
+    t <- TukeyHSD(aov(sprzedaz_p~ktorySklep_p), conf.level = 1 - alfa)
+    p_values <- t[["ktorySklep_p"]][ , 4]
+    istotne <- which(p_values >= alfa)
+    print("Pary, dla których śrendie nie różnią się istotnie statystycznie")
+    names(istotne)
 }
 
