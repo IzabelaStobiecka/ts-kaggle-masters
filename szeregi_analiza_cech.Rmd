@@ -1,0 +1,58 @@
+---
+title: "Tworzenie szeregów i poszukiwanie modeli"
+author: "Sandra Sobór"
+date: "5 06 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Skupimy się teraz na narysowaniu wykresów danych, znalezieniu potencjalnej 
+sezonowości i stworzeniu szeregów czasowych. Po wykonaniu tych czynności
+będziemy mogli zająć się szukaniem odpowiednich modeli.
+
+Rozpoczniemy od wczytania danych z pliku (danych, które zostały uproszczone
+poprzez usunięcie sklepów z podobną sprzedażą danego produktu).
+
+```{r wczytanie danych, warning = FALSE, message = FALSE}
+library(dplyr)
+library(RColorBrewer)
+library(forecast)
+library(tseries)
+library(DescTools)
+
+sciezka_pliku <- paste0("dane/dane_do_analizy.rds")
+
+dane <- readRDS(sciezka_pliku)
+tail(dane)
+```
+
+Kolejnym krokiem będzie rozdzielenie danych ze względu na produkt i sklep 
+(każdy kombinacja produktu i sklepu będzie zachowana w liście). Ustalmy dodatkow
+zmienną frequency czyli liczbę obserwacji na jednostkę czasu i stwórzmy szeregi 
+czasowe z naszych danych.
+
+```{r}
+f <- 365
+ts_dane <- split(dane, list(dane$store, dane$item)) %>%
+    lapply(function(x) ts(x$sales, frequency = f))
+
+```
+
+Aby zobaczyć jak wyglądają nasze dane i wnioskować o sezonowości wykonamy teraz 
+wykresy za pomocą funckji `tsdisplay()` aby zobaczyć również wykresy `acf` i 
+`pacf`.
+
+```{r}
+for (i in 1:length(ts_dane)) {
+    tsdisplay(ts_dane[[i]], main = paste("Dane dla produkt.sklep:", names(ts_dane[i])))    
+}
+
+```
+
+Z powyższych wykresów jesteśmy w stanie zaobserwować wyraźną sezonowość
+dla wszytskich produktów (roczną) oraz trend rosnący. Warto również 
+zauważyć, że nasze dane całkiem nieźle zachowują się na wykresie `pacf`
+co może sugerować użycie modelu `AR(p)`.
