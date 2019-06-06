@@ -41,15 +41,43 @@ ts_dane <- split(dane, list(dane$store, dane$item)) %>%
 
 ```
 
-Aby zobaczyć jak wyglądają nasze dane i wnioskować o sezonowości wykonamy teraz 
-wykresy za pomocą funckji `tsdisplay()` aby zobaczyć również wykresy `acf` i 
-`pacf`.
+Dodatkowo zapiszmy stworzone szeregi w oddzielnym plikiu aby móc korzystać z 
+nich w innych raportach.
 
 ```{r}
+saveRDS(ts_dane, file = "dane/szeregi.rds")
+```
+
+Aby zobaczyć jak wyglądają nasze dane i wnioskować o sezonowości wykonamy teraz 
+wykresy za pomocą funckji `tsdisplay()` aby zobaczyć również wykresy `acf` i 
+`pacf`. Dodatkowo dla każdego szeregu przeprowadzimy test rozstrzygający o 
+stacjonarności (`adf.test()`), wypiszemy p-value oraz stworzymy wektor `d`, który
+będzie przechowywał informację czy szereg powinien być różnicowany przy tworzneiu 
+modelu czy nie. Dla wyżej wymienionego testu hipotezą zerową jest, że szereg nie
+jest stacjonarny. Ustalimy również poziom `alfa` na którym bedziemy sprawdzali
+p-value.
+
+```{r}
+d <- rep(0, length(ts_dane))
+alfa <- 0.05
+
 for (i in 1:length(ts_dane)) {
-    tsdisplay(ts_dane[[i]], main = paste("Dane dla produkt.sklep:", names(ts_dane[i])))    
+    tsdisplay(ts_dane[[i]], main = paste("Dane dla produkt.sklep:", names(ts_dane[i]))) 
+    
+    a <- adf.test(ts_dane[[i]], alternative = "stationary")
+    print(a$p.value)
+    
+    if (a$p.value >= alfa) {
+        d[i] = 1
+    }
 }
 
+```
+
+Zapiszmy również do pliku nasz wektor z informacją o konieczności różnicowania.
+
+```{r}
+saveRDS(d, file = "dane/wektor_d.rds")
 ```
 
 Z powyższych wykresów jesteśmy w stanie zaobserwować wyraźną sezonowość
