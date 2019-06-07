@@ -1,5 +1,5 @@
 
-#funckja rysująca qqnorm i qqline
+#Funckja rysująca qqnorm i qqline
 
 qq <- function(x) {
     qqnorm(x)
@@ -59,7 +59,7 @@ analiza_produktu <- function(x, alfa = 0.05) {
 }
 
 
-#funkcja, która dla podzielonych na produkty danych dokona zmiany
+#Funkcja, która dla podzielonych na produkty danych dokona zmiany
 #sklepu 10 na 3, 9 na 4, 6 na 5 oraz jako sales weźmie średnią
 #z sales dla obu złączonych sklepów.
 

@@ -36,8 +36,7 @@ ktorySklep <- factor(sklep, levels = c("1":"10"))
 head(dane)
 ```
 
-## Analiza wariancji - Czy istnieje sklep którego średnia sprzedaż różni się 
-istotnie statystycznie od sprzedaży w innych sklepach?
+## Analiza wariancji - Czy istnieje sklep którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
 
 ```{r}
 boxplot(sprzedaz~ktorySklep, xlab = "Numer sklepu", ylab = "Sprzedaż produktów",
@@ -104,7 +103,7 @@ normalności rozkładu oraz wykonać ANOVE i test Tukey'a.
 lapply(dane_podzielone_p, function(x) analiza_produktu(x, alfa))
 ```
 
-Powyższa analiza pokazała, że śrendia sprzedaż dal wszystkich produktów była 
+Powyższa analiza pokazała, że średnia sprzedaż dla wszystkich produktów była 
 nieistotnie rózna statystycznie dla par `10-3`, `9-4`, `6-5`. Zastosujmy zatem
 do uproszczenia danych podejście, w którym dane ze sklepów 10, 9 i 6 potraktujemy 
 jako dane ze sklepów odpowiednio 3, 4, 5. Mając wtedy po dwie wartości sprzedaży

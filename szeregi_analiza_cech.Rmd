@@ -30,7 +30,7 @@ tail(dane)
 ```
 
 Kolejnym krokiem będzie rozdzielenie danych ze względu na produkt i sklep 
-(każdy kombinacja produktu i sklepu będzie zachowana w liście). Ustalmy dodatkow
+(każdy kombinacja produktu i sklepu będzie zachowana w liście). Ustalmy dodatkowo
 zmienną frequency czyli liczbę obserwacji na jednostkę czasu i stwórzmy szeregi 
 czasowe z naszych danych.
 
@@ -41,7 +41,7 @@ ts_dane <- split(dane, list(dane$store, dane$item)) %>%
 
 ```
 
-Dodatkowo zapiszmy stworzone szeregi w oddzielnym plikiu aby móc korzystać z 
+Dodatkowo zapiszmy stworzone szeregi w oddzielnym pliku, aby móc korzystać z 
 nich w innych raportach.
 
 ```{r}
@@ -81,6 +81,6 @@ saveRDS(d, file = "dane/wektor_d.rds")
 ```
 
 Z powyższych wykresów jesteśmy w stanie zaobserwować wyraźną sezonowość
-dla wszytskich produktów (roczną) oraz trend rosnący. Warto również 
+dla wszystkich produktów (roczną) oraz trend rosnący. Warto również 
 zauważyć, że nasze dane całkiem nieźle zachowują się na wykresie `pacf`
 co może sugerować użycie modelu `AR(p)`.
