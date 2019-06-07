@@ -1,0 +1,40 @@
+---
+title: "Tworzenie modeli"
+author: "Sandra Sobór"
+date: "6 06 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r wczytanie danych, warning = FALSE, message = FALSE}
+library(dplyr)
+library(RColorBrewer)
+library(forecast)
+library(tseries)
+library(DescTools)
+```
+
+Poprzednie analizy pozwoliły nam zredukować dane oraz wysnuć wnioski o 
+stacjonarnosci. Kolejnym i ostatnim krokiem będzie stworzenie modeli i dokonanie
+predykcji. Wczytajmy zatem nasze szeregi czasowe oraz wektor odpowiadający za
+różnicowanie szergów. 
+
+```{r}
+ts_dane <- readRDS("dane/szeregi.rds")
+d <- readRDS("dane/wektor_d.rds")
+```
+
+
+```{r}
+p <- 5
+q <- 1
+
+for (i in 1:length(ts_dane)) {
+    a <- Arima(ts_dane[[i]], order = c(p, d[i], q))
+    summary(a)
+}
+```
+
