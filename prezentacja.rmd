@@ -1,6 +1,6 @@
 ---
 title: "Prognozowanie zapotrzebowania na produkty w sklepach"
-author: "Grupa A: Karolina Mruk, Aleksandra Kowarik, Joanna Szymańska, Sandra Sobór, Izabela Stobiecka, Anita Księżak, Jakub Bujnowicz"
+author: "Grupa A: Karolina Mruk, Aleksandra Kowarik, Joanna Szymańska, Sandra Sobór, Izabela Stobiecka, Anita Księżak"
 date: "11 czerwca 2019"
 output: html_document
 ---
@@ -15,7 +15,7 @@ Nasza grupa podjęła się rozwiązania zadanie z portalu kaggle.com ([link](htt
 
 Na podstawie danych z 5 lat, należało zaproponować prognozę sprzedaży na najbliższe 3 miesiące dla 50 różnych produktów w 10 różnych sklepach.
 
-Od razu nasunęło nam się pytanie- jak różni się średnia sprzedaż w poszczególnych sklepach? Być może jesteśmy w stanie modelować pewne pary sklepów tak samo? Zadanie rozpoczęliśmy więc od przeprowadzenia analizy wariancji (R skrypt- `analiza_srednich_w_grupach.R`). Następnie w skrypcie `szeregi_analiza_cech.R` stworzyliśmy interesujące nasz szeregi czasowe i dokonaliśmy ich analizy, po to by następnie w skrypcie `modele_i_predykcja.R` dokonać prognozy. Nasz projekt składa się więc z trzech współpracujących ze sobą R-skryptów, które wykorzystują pliki RDS do "przenoszenia danych"" między sobą.
+Od razu nasunęło nam się pytanie- jak różni się średnia sprzedaż w poszczególnych sklepach? Być może jesteśmy w stanie modelować pewne pary sklepów tak samo? Zadanie rozpoczęliśmy więc od przeprowadzenia analizy wariancji (R skrypt- `analiza_srednich_w_grupach.R`). Następnie w skrypcie `szeregi_analiza_cech.R` stworzyliśmy interesujące nasz szeregi czasowe i dokonaliśmy ich analizy, po to by następnie w skrypcie `modele_i_predykcja.R` dokonać prognozy. Nasz projekt składa się więc z trzech współpracujących ze sobą R-skryptów, które wykorzystują pliki RDS do "przenoszenia danych"" między sobą oraz z dodatkowego R-skryptu definiującego używane w projekcie funkcje. 
 
 # Analiza średnich w grupach
 
@@ -27,17 +27,19 @@ Już na powyższym wykresie pudełkowym możemy zauważyć, że niektóre pary s
 ##### Normalność rozkładu
 W następnym kroku sprawdziliśmy założenie dotyczące normalności rozkładu wszystkich zmiennych losowych oraz za pomocą testu Saphiro - normalność danych z podziałem na sklepy.
 
+<center>
 ![](pvalue.png)
+</center>
 
-![](qq.png)
+![](qq_all.png)
 
-`p-value` z testu Saphiro okazały się bardzo niskie dla wszystkich sklepów jednak na podstawie wykresów `qqnorm` + `qqline` założyliśmy, że mają one rozkład zbliżony do normalnego co pozwoliło nam na kontynuację analizy.
+`p-value` z testu Saphiro okazały się bardzo niskie dla wszystkich sklepów, jednak założyliśmy, że mimo braku normalności możemy potraktować ANOVĘ jako odpowiednią metodę.
 W następnym kroku przeprowadziliśmy ANOVĘ oraz test Tukey'a.
 
-
+![](tukey.png)
 
 #### Wniosek
-Średnia sprzedaż produktów okazała się podobna dla następujących par sklepów: _9-4, 6-5_
+Średnia sprzedaż produktów okazała się podobna dla następujących par sklepów: _9-4, 6-5_.
 
 #### Czy istnieje produkt którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach? 
 
@@ -53,14 +55,18 @@ W kolejnym etapie skupiliśmy się na narysowaniu wykresów danych, znalezieniu 
 sezonowości i stworzeniu szeregów czasowych. Po wykonaniu tych czynności
 mogliśmy zająć się szukaniem odpowiednich modeli.
 
-Wykonaliśmy wykresy za pomocą funckji `tsdisplay()` aby zobaczyć wykresy `acf` i `pacf`oraz dla każdego szeregu przeprowadziliśmy test rozstrzygający o stacjonarności (`adf.test()`). 
-Dodatkowo dla każdego szeregu przeprowadzimy test rozstrzygający o
-stacjonarności (`adf.test()`). Dla wyżej wymienionego testu hipotezą zerową jest, że szereg nie
+Wykonaliśmy wykresy za pomocą funckji `tsdisplay()` aby zobaczyć wykresy `acf` i `pacf`. Przykładowe wykresy poniżej:
+![](Rplot.png)
+![](display1.png)
+![](display2.png)
+
+
+
+Dla każdego szeregu przeprowadziliśmy test rozstrzygający o stacjonarności (`adf.test()`). 
+Dla wyżej wymienionego testu hipotezą zerową jest, że szereg nie
 jest stacjonarny, dlatego wypisaliśmy p-value oraz stworzyliśmy wektor `d`, który
 przechowywał informację czy szereg powinien być różnicowany przy tworzeniu
 modelu czy nie. 
-
-![](Rplot.png)
 
 Po wykonaniu tych czynności zajęliśmy się szukaniem odpowiednich modeli.
 
@@ -72,7 +78,10 @@ Kolejnym i ostatnim krokiem było stworzenie modeli i dokonanie predykcji.
 
 # Tworzenie modeli i predykcja
 
-Na tym etapie dokonaliśmy utworzenia modeli korzystając z funkcji `auto.arima` oraz uzupełniliśmy plik testowy o predykowane wartości. Mając na uwadze pominięcie predykcji dla sklepów 6(=5), 9(=4), 10(=3), wartości predykowane dla sklepów 5, 4, 3 zostały wczytane zarówno dla tych sklepów jak i ich odpowiedników (6, 9, 10).
+Na tym etapie dokonaliśmy utworzenia modeli korzystając z funkcji `auto.arima` oraz uzupełniliśmy plik testowy o predykowane na ich podstawie wartości. Wykresy przykładowych predykcji poniżej:
+![](arima.png)
+
+Mając na uwadze pominięcie predykcji dla sklepów 6(=5), 9(=4), 10(=3), wartości predykowane dla sklepów 5, 4, 3 zostały wczytane zarówno dla tych sklepów jak i ich odpowiedników (6, 9, 10).
 
 
 
