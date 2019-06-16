@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-#Opis zadania
+# Opis zadania
 
 Nasza grupa podjęła się rozwiązania zadanie z portalu kaggle.com ([link](https://www.kaggle.com/c/demand-forecasting-kernels-only/overview?fbclid=IwAR1_03Sg2Zzgsaez4v6itwCSZE_B_TEBMLUUm8ogfp8_ZF5cjcsRGo0I3cg)), które polegało na zbadaniu różnych technik szeregów czasowych na stosunkowo prostym i czystym zbiorze danych.
 
@@ -17,14 +17,14 @@ Na podstawie danych z 5 lat, należało zaproponować prognozę sprzedaży na na
 
 Od razu nasunęło nam się pytanie- jak różni się średnia sprzedaż w poszczególnych sklepach? Być może jesteśmy w stanie modelować pewne pary sklepów tak samo? Zadanie rozpoczęliśmy więc od przeprowadzenia analizy wariancji (R skrypt- `analiza_srednich_w_grupach.R`). Następnie w skrypcie `szeregi_analiza_cech.R` stworzyliśmy interesujące nasz szeregi czasowe i dokonaliśmy ich analizy, po to by następnie w skrypcie `modele_i_predykcja.R` dokonać prognozy. Nasz projekt składa się więc z trzech współpracujących ze sobą R-skryptów, które wykorzystują pliki RDS do "przenoszenia danych"" między sobą.
 
-#Analiza średnich w grupach
+# Analiza średnich w grupach
 
-##Czy istnieje sklep którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
+#### Czy istnieje sklep którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
 ![](an.png)
 
 Już na powyższym wykresie pudełkowym możemy zauważyć, że niektóre pary sklepów mają podobną średnią sprzedaż. 
-
-##Normalność rozkładu
+ 
+##### Normalność rozkładu
 W następnym kroku sprawdziliśmy założenie dotyczące normalności rozkładu wszystkich zmiennych losowych oraz za pomocą testu Saphiro - normalność danych z podziałem na sklepy.
 
 ![](pvalue.png)
@@ -36,19 +36,19 @@ W następnym kroku przeprowadziliśmy ANOVĘ oraz test Tukey'a.
 
 
 
-##Wniosek
+#### Wniosek
 Średnia sprzedaż produktów okazała się podobna dla następujących par sklepów: _9-4, 6-5_
 
-##Czy istnieje produkt którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach? 
+#### Czy istnieje produkt którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach? 
 
 Aby rozpocząć taką analizę, podzieliliśmy nasze dane ze względu na produkty i sklepy, otrzymując w ten sposób 50 list opisujących sprzedaże poszczególnych produktów. Następnie dokonaliśmy analogicznej analizy tj. wygenerowanie boxplotów dla danego produktu z podziałem na sklepy, dokonanie sprawdzenia normalności rozkładu oraz wykonanie analizy wariancji i testu Tukey'a.
 
 ![](an50.png)
 
-##Wniosek 
-Wnioskiem, jaki mogliśmy wyciągnąć z tej analizy, było to, że średnia sprzedaż produktów jest podobna dla następujących par sklepów: _9-4, 10-3, 6-5_. Zatem dla uproszczenia, w procesie tworzenia modeli i prognozowania zdecydowaliśmy się potraktować dane ze sklepów 10, 9 i 6 jako dane ze sklepów odpowiednio 3, 4, 5.
+#### Wniosek 
+Wnioskiem, jaki mogliśmy wyciągnąć z tej analizy, było to, że średnia sprzedaż produktów jest podobna dla następujących par sklepów: _9-4, 10-3, 6-5_. Zatem dla uproszczenia, w procesie tworzenia modeli i prognozowania zdecydowaliśmy się potraktować dane ze sklepów 10, 9 i 6 łącznie z danymi ze sklepów odpowiednio 3, 4, 5. Do naszej nowej ramki danych zostały wczytane średnie ze sprzedaży w danym dniu w odpowiadających sobie sklepów. Tym samym wiersze dla sklepów 6, 9, 10 zostały usunięte. Ogarniczyło nam to chociaż minimalnie liczbę modeli, które musieliśmy stworzyć.
 
-#Analiza cech szeregów
+# Analiza cech szeregów
 W kolejnym etapie skupiliśmy się na narysowaniu wykresów danych, znalezieniu potencjalnej
 sezonowości i stworzeniu szeregów czasowych. Po wykonaniu tych czynności
 mogliśmy zająć się szukaniem odpowiednich modeli.
@@ -70,10 +70,9 @@ Przeprowadzone analizy pozwoliły nam zredukować dane oraz wysnuć wnioski o st
 
 Kolejnym i ostatnim krokiem było stworzenie modeli i dokonanie predykcji.
 
-#Tworzenie modeli i predykcja
+# Tworzenie modeli i predykcja
 
-Na tym etapie dokonaliśmy utworzenia modeli korzystając z funkcji `auto.arima` oraz uzupełniliśmy plik testowy o predykowane wartości. Mając na uwadze pominięcie predykcji dla sklepów
-#6(=5) ,9(=4) ,10(=3) uzupełniliśmy plik testowy odpowiednimi wartościami.
+Na tym etapie dokonaliśmy utworzenia modeli korzystając z funkcji `auto.arima` oraz uzupełniliśmy plik testowy o predykowane wartości. Mając na uwadze pominięcie predykcji dla sklepów 6(=5), 9(=4), 10(=3), wartości predykowane dla sklepów 5, 4, 3 zostały wczytane zarówno dla tych sklepów jak i ich odpowiedników (6, 9, 10).
 
 
 
