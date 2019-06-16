@@ -1,0 +1,79 @@
+---
+title: "Prognozowanie zapotrzebowania na przedmiot w sklepie"
+author: "KMruk, Okowarik, JSzymańska, SSobór, IStobiecka, AKsiężak, JBujnowicz"
+date: "11 czerwca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+#OPIS ZADANIA
+
+Konkurs ten ma na celu zbadanie różnych technik szeregów czasowych na stosunkowo prostym i czystym zbiorze danych.
+
+Na podstawie danych z 5 lat dotyczących sprzedaży przedmiotów w sklepie, zaprognozuj na 3 miesięce sprzedaż dla 50 różnych przedmiotów w 10 różnych sklepach.
+
+#ZACZYNAMY ANALIZĘ
+
+##Czy istnieje sklep którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
+![](an.png)
+
+##Normalność rozkładu
+W następnym kroku sprawdziliśmy założenie dotyczące normalności rozkładu wszystkich zmiennych losowych oraz za pomocą testu Saphiro - normalność danych z podziałem na sklepy.
+
+![](pvalue.png)
+
+![](qq.png)
+
+`p-value` z testu Saphiro okazały się bardzo niskie dla wszystkich sklepów jednak na podstawie wykresów `qqnorm` + `qqline` założyliśmy, że mają one rozkład zbliżony do normalnego co pozwoliło nam na kontynuację analizy.
+W następnym kroku przeprowadziliśmy ANOVĘ oraz test Tukey'a.
+
+
+
+#WNIOSEK
+Średnia sprzedaż produktów okazała się podobna dla następujących par sklepów: _9-4, 6-5_
+
+##Czy istnieje produkt którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach? 
+
+Aby rozpocząć takiej analizy podzieliliśmy nasze dane ze względu na produkty i sklepy otzrymując w ten sposób 50 list opisujących sprzedaże innych produktów a następnie dokonaliśmy podobnej analizy co w przypadku wyżej, tj. narysowanie boxplotów dla danego produktu z podziałem na sklepy, dokonanie sprawdzenia normalności rozkładu oraz wykonanie ANOVE i testu Tukey'a.
+
+![](an50.png)
+
+#WNIOSEK
+Wnioskiem, jaki się nam nasunął było to, że średnia sprzedaż produktów jest podobna dla następujących par sklepów: _9-4, 10-3, 6-5_. Zatem dla uproszczenia, dane ze sklepów 10, 9 i 6 potraktowaliśmy jako dane ze sklepów odpowiednio 3, 4, 5.
+
+#Kolejnym krokiem było:
+-narysowanie wykresów danych, 
+
+-znalezienie potencjalnej sezonowości  
+
+-stworzenie szeregów czasowych. 
+
+W tym celu wykonaliśmy wykresy za pomocą funckji `tsdisplay()` aby zobaczyć wykresy `acf` i `pacf`oraz dla każdego szeregu przeprowadziliśmy test rozstrzygający o stacjonarności.
+
+Jako hipotezę zerową dla tego testu przyjęliśmy, że szereg nie jest stacjonarny.
+
+![](Rplot.png)
+
+
+
+Po wykonaniu tych czynności zajęliśmy się szukaniem odpowiednich modeli.
+
+Z powyższych wykresów zaobserwowaliśmy wyraźną sezonowość dla wszystkich produktów (roczną) oraz trend rosnący. Nasze dane także całkiem nieźle zachowują się na wykresie `pacf`, co sugeruje użycie modelu `AR(p)`.
+
+Przeprowadzone analizy pozwoliły nam zredukować dane oraz wysnuć wnioski o stacjonarnosci. 
+
+Kolejnym i ostatnim krokiem było stworzenie modeli i dokonanie predykcji.
+
+#TWORZENIE MODELI
+
+Na tym etapie wczytaliśmy  nasze szeregi czasowe oraz wektor odpowiadający za różnicowanie szeregów. 
+
+Następnie dokonaliśmy utworzenia modeli korzystając z funkcji `auto.arima` oraz uzupełniliśmy plik testowy o predykowane wartości uwzględniając pominięcie predykcji dla sklepów 6(=5) ,9(=4) ,10(=3).
+
+
+
+
+
