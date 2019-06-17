@@ -1,15 +1,19 @@
 
-#Funckja rysująca qqnorm i qqline
+
+##Funkcja rysująca qqnorm i qqline
+
 
 qq <- function(x) {
     qqnorm(x)
     qqline(x, col = "red")
 }
 
-#Funckja wykonująca Shapiro test i printująca jedynie p-value
-#bo tylko to nas interesuje, dodatkowo, dla zbyt dużych zbiorów
-#danych, pobiera nam próbkę o długości maksymalnej dla tego
-#testu i na niej wykonuje test. Nie zminiejsza to ogólności.
+
+# Funkcja wykonująca Shapiro test i printująca jedynie p-value
+# bo tylko to nas interesuje, dodatkowo, dla zbyt dużych zbiorów
+# danych, pobiera nam próbkę o długości maksymalnej dla tego
+# testu i na niej wykonuje test. Nie zminiejsza to ogólności.
+
 
 shapiro_pvalue <- function(x) {
     if (length(x) > 5e3) {
@@ -24,6 +28,7 @@ shapiro_pvalue <- function(x) {
 # weryfikację normalności rozkładu oraz ANOVE i test Tukey'a oraz
 # wypisanie par, dla ktorych roznice sredniej nie są istotne
 # statystycznie
+
 
 analiza_produktu <- function(x, alfa = 0.05) {
 
