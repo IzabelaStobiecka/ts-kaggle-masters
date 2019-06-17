@@ -6,7 +6,9 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+opts_chunk$set(echo = TRUE)
+opts_chunk$set(eval=FALSE)
 ```
 
 # Opis zadania
@@ -17,7 +19,123 @@ Na podstawie danych z 5 lat, należało zaproponować prognozę sprzedaży na na
 
 Od razu nasunęło nam się pytanie- jak różni się średnia sprzedaż w poszczególnych sklepach? Być może jesteśmy w stanie modelować pewne pary sklepów tak samo? Zadanie rozpoczęliśmy więc od przeprowadzenia analizy wariancji (R skrypt- `analiza_srednich_w_grupach.R`). Następnie w skrypcie `szeregi_analiza_cech.R` stworzyliśmy interesujące nasz szeregi czasowe i dokonaliśmy ich analizy, po to by następnie w skrypcie `modele_i_predykcja.R` dokonać prognozy. Nasz projekt składa się więc z trzech współpracujących ze sobą R-skryptów, które wykorzystują pliki RDS do "przenoszenia danych"" między sobą oraz z dodatkowego R-skryptu definiującego używane w projekcie funkcje. 
 
+#Funkcje
+Poniżej pokażemy i opiszemy działanie wszystkich funkcji, które zostały zdefiniowane w celu zoptymalizowania kodu użytego w projekcie. 
+
+#### Funkcja `qq`
+
+Funkcja rysująca wykresy qqnorm i qqline.
+```{r}
+qq <- function(x) {
+    qqnorm(x)
+    qqline(x, col = "red")
+}
+```
+
+#### Funkcja `shapiro_pvalue`
+
+Funkcja wykonująca Shapiro test i printująca jedynie p-value. Dodatkowo, dla zbyt dużych zbiorów danych, pobiera próbkę o długości maksymalnej dla tego testu i na niej wykonuje test. Nie zminiejsza to ogólności.
+
+```{r}
+shapiro_pvalue <- function(x) {
+    if (length(x) > 5e3) {
+        o <- sample(length(x), 5e3)
+        x <- x[o]
+    }
+    shapiro.test(x)$p.value
+}
+```
+
+#### Funkcja `analiza_produktu` 
+
+Funkcja, która dla listy wykonuje boxplot z podziałem na sklepy,
+weryfikację normalności rozkładu oraz ANOVE i test Tukey'a oraz
+wypisanie par, dla ktorych rożnice średniej nie są istotne
+statystycznie.
+
+```{r}
+analiza_produktu <- function(x, alfa = 0.05) {
+
+    produkt <- x[["item"]][[1]]
+    print(paste("Analiza produktu", produkt))
+
+    sprzedaz_p <- sprzedaz[ktoryProdukt == as.character(produkt)]
+    sklep_p <- sklep[ktoryProdukt == as.character(produkt)]
+
+    ktorySklep_p <- factor(sklep_p, levels = c("1":"10"))
+
+    boxplot(sprzedaz_p ~ ktorySklep_p, xlab = "Numer sklepu",
+            ylab = paste("Sprzedaż produktu", as.character(produkt)),
+            col = brewer.pal(n = 10, name = "PiYG"))
+    points(1:10, by(sprzedaz_p, ktorySklep_p, mean), pch = 15)
+    by(sprzedaz_p,  sklep_p, mean)
+
+    print("Sprawdzenie normalnosci dla produktu, z podzialem na sklepy.")
+
+    x %>% group_by(store) %>%
+        summarize(
+            p_value = shapiro_pvalue(sales)) %>%
+        print()
+
+    print("W celu dalszych badan zalozmy jednak, że kazda proba pochodzi z rozkladu zblizonego do rozkladu normalnego. Teraz wykonamy analize wariancji i testy post hoc.")
+
+    anova(lm(sprzedaz_p ~ ktorySklep_p))
+    t <- TukeyHSD(aov(sprzedaz_p~ktorySklep_p), conf.level = 1 - alfa)
+    p_values <- t[["ktorySklep_p"]][ , 4]
+    istotne <- which(p_values >= alfa)
+    print("Pary, dla których śrendie nie różnią się istotnie statystycznie")
+    print(names(istotne))
+}
+```
+
+
+#### Funkcja `zamiana_sklepow`
+
+Funkcja, która dla podzielonych na produkty danych dokonuje zamiany
+sklepu 10 na 3, 9 na 4, 6 na 5 oraz jako sales bierze średnią
+z sales dla obu złączonych sklepów.
+
+```{r}
+zamiana_sklepow <- function(x, domyslna, zmieniana) {
+
+    #x to wstępne dane
+    x %>%
+        filter(store == domyslna) %>%
+        select(sales) -> kol1
+    x %>%
+        filter(store == zmieniana) %>%
+        select(sales) -> kol2
+
+    #średnia dla dwóch złączanych kolumn
+    kolumna_wyjsciowa <- (kol1 + kol2) / 2
+
+    #usuwamy dane z drugim sklepem
+    x %>%
+        filter(store != zmieniana) -> usuniete_zmieniane
+
+    indeksy <- which(usuniete_zmieniane$store == domyslna)
+
+    #wklejamy średnie w wiersze z pierwszego sklepu
+    usuniete_zmieniane[indeksy, 4] <- kolumna_wyjsciowa
+
+    return(usuniete_zmieniane)
+}
+```
+
 # Analiza średnich w grupach
+#### Wczytanie danych 
+```{r}
+dane <- read.csv(sciezka_pliku)
+
+sklep <- dane$store
+produkt <- dane$item
+sprzedaz <- dane$sales
+
+ktoryProdukt <- factor(produkt, levels = c("1":"50"))
+ktorySklep <- factor(sklep, levels = c("1":"10"))
+
+head(dane)
+```
 
 #### Czy istnieje sklep którego średnia sprzedaż różni się istotnie statystycznie od sprzedaży w innych sklepach?
 ![](an.png)

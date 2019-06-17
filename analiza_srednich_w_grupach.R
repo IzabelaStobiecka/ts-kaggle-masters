@@ -4,6 +4,7 @@ library(RColorBrewer)
 library(forecast)
 library(tseries)
 library(DescTools)
+library(knitr)
 
 source("functions.R", encoding = "UTF-8")
 

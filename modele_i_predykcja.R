@@ -4,7 +4,7 @@ library(forecast)
 # Poprzednie analizy pozwoliły nam zredukować dane oraz wysnuć wnioski o
 # stacjonarnosci. Kolejnym i ostatnim krokiem będzie stworzenie modeli i dokonanie
 # predykcji. Wczytajmy zatem nasze szeregi czasowe oraz wektor odpowiadający za
-# różnicowanie szergów.
+# różnicowanie szeregów.
 
 ts_dane <- readRDS("dane/szeregi.rds")
 d <- readRDS("dane/wektor_d.rds")
