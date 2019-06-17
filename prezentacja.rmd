@@ -1,6 +1,6 @@
 ---
-title: "Prognozowanie zapotrzebowania na produkty w sklepach"
-author: "Grupa A: Karolina Mruk, Aleksandra Kowarik, Joanna Szymańska, Sandra Sobór, Izabela Stobiecka, Anita Księżak"
+title: "[Prognozowanie zapotrzebowania na produkty w sklepach](https://www.kaggle.com/anitaksiezak/prognozowanie-zapotrzebowania-na-produkty-projekt)"
+author: "Grupa A: Aleksandra Kowarik, Anita Księżak, Karolina Mruk, Sandra Sobór, Izabela Stobiecka, Joanna Szymańska"
 date: "11 czerwca 2019"
 output: html_document
 ---
@@ -342,6 +342,6 @@ testowy[testowy$store == 10, 5] <- testowy[testowy$store == 3, 5]
 write.csv2(testowy, file = "dane/output.csv")
 ```
 
-W ten sposób otrzymaliśmy plik `dane/otput.csv`, który jest naszą propozycją rozwiązania zadania.
+W ten sposób otrzymaliśmy plik `dane/otput.csv`, który został zaktualizowany (do pliku `dane/otput_update.csv`) na potrzeby analizy przez platformę *kaggle*.
 
 
